@@ -1,7 +1,5 @@
 package bank;
 
-import java.net.IDN;
-
 public class Customer {
  
  private int id;
