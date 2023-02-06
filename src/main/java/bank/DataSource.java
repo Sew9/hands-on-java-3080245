@@ -9,19 +9,23 @@ import java.sql.SQLException;
 public class DataSource {
 
   public static Connection connect() {
+    
     String db_file = "jdbc:sqlite:resources/bank.db";
     Connection connection = null;
     try {
       connection = DriverManager.getConnection(db_file);
       System.out.println("we're connected");
-    } catch (SQLException e) {
+    }catch(SQLException e) {
       e.printStackTrace();
     }
     return connection;
   }
 
   public static Customer getCustomer(String username){
-    String sql = "select * from customers where username = ?"; //? is use to replace the raw data to protect agains malicious input 
+
+    //? is use to replace the raw data to protect agains malicious input 
+    String sql = "select * from customers where username = ?"; 
+
     Customer customer = null;
     try(Connection connection = connect(); 
         PreparedStatement statement = connection.prepareStatement(sql)){
@@ -44,6 +48,7 @@ public class DataSource {
   }
 
   public static Account getAccount(int accountId) {
+
     String sql = "select * from account where id = ?";
     Account accouter = null;
     try(Connection connection = connect();
@@ -66,12 +71,12 @@ public class DataSource {
 
   public static void main(String[] args) {
 
-   Customer customer =  getCustomer(
+   Customer customer = getCustomer(
    "tWest80@friendfee.com");
-   System.out.println(customer.getName());
+   System.out.println(customer.getName()); 
 
    Account accouter = getAccount(57187);
-   System.out.println(accouter.getId());
+   System.out.println(accouter.getBalance());
   
   }
 }
