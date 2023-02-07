@@ -6,50 +6,50 @@ import javax.security.auth.login.LoginException;
 
 import bank.exceptions.AmountException;
 
-public class Menu {
+  public class Menu {
+
   private Scanner scanner;
 
-  public static void main(String[] args){
-    System.out.print("Welcome to Globe Bank International");
+  public static void main(String[] args) {
+    System.out.println("Welcome to Globe Bank International!");
 
     Menu menu = new Menu();
-
     menu.scanner = new Scanner(System.in);
 
     Customer customer = menu.authenticateUser();
 
-    if(customer != null){
+    if (customer != null) {
       Account account = DataSource.getAccount(customer.getAccountId());
-      menu.showMemu(customer,account);
+      menu.showMenu(customer, account);
     }
 
     menu.scanner.close();
   }
 
-  private Customer authenticateUser(){
+  private Customer authenticateUser() {
     System.out.println("Please enter your username");
     String username = scanner.next();
 
-    System.out.print("Please enter your password");
+    System.out.println("Please enter your password");
     String password = scanner.next();
 
     Customer customer = null;
-    try{
-    customer = Authentictor.login(username, password);
-    } catch(LoginException e) {
-        System.out.println("There was an error: " + e.getMessage());
+    try {
+      customer = Authenticator.login(username, password);
+    } catch (LoginException e) {
+      System.out.println("There was an error: " + e.getMessage());
     }
-     return customer;
+
+    return customer;
   }
 
-
-  private void showMemu(Customer customer, Account account){ 
+  private void showMenu(Customer customer, Account account) {
 
     int selection = 0;
 
-    while(selection != 4 && customer.isAuthenticated()){
-      System.out.println("==============================================");
-      System.out.println("please select one of the following options: ");
+    while (selection != 4 && customer.isAuthenticated()) {
+      System.out.println("================================================");
+      System.out.println("Please select one of the following options: ");
       System.out.println("1: Deposit");
       System.out.println("2: Withdraw");
       System.out.println("3: Check Balance");
@@ -57,30 +57,38 @@ public class Menu {
       System.out.println("================================================");
 
       selection = scanner.nextInt();
-      double amount;
+      double amount = 0;
 
-      switch(selection){
-        case 1: System.out.println("How much would you like to deposit?"); 
-                amount = scanner.nextDouble();
-                try{
-                account.deposit(amount);
-              } catch(AmountException e){
-                System.out.println(e.getMessage());
-                System.out.println("Pleasentry again.");
-              }
-                break;
-        case 2: System.out.println("How much would you like to withdraw?"); 
-                amount = scanner.nextDouble();
-                account.withdraw(amount);
-                break;
-        case 3: System.out.println("Current balamce: " + account.getBalance()); 
-                break;
-        case 4: Authentictor.logout(customer);
-                System.out.println("Thanks for banking at Globe Bamk International!"); 
-                break;
+      switch (selection) {
+        case 1:
+          System.out.println("How much would you like to deposit?");
+          amount = scanner.nextDouble();
+          try{
+          account.deposit(amount);
+          }catch(AmountException e){
+            System.out.println(e.getMessage());
+            System.out.println("Please try again.");
+          }
+          break;
+
+        case 2:
+          System.out.println("How much would you like to withdraw?");
+          amount = scanner.nextDouble();
+          account.withdraw(amount);
+          break;
+
+        case 3:
+          System.out.println("Current balance: " + account.getBalance());
+          break;
+
+        case 4:
+          Authenticator.logout(customer);
+          System.out.println("Thanks for banking at Globe Bank International!");
+          break;
+
         default:
-                System.out.println("Invalid option. Please try again"); 
-                break;
+          System.out.println("Invalid option. Please try again");
+          break;
       }
     }
   }

@@ -25,7 +25,7 @@ public class Customer {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public void setId(int id) {
@@ -33,7 +33,7 @@ public class Customer {
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public void setName(String name) {
@@ -49,7 +49,7 @@ public class Customer {
   }
 
   public String getPassword() {
-    return this.password;
+    return password;
   }
 
   public void setPassword(String password) {
@@ -57,7 +57,7 @@ public class Customer {
   }
 
   public int getAccountId() {
-    return this.accountId;
+    return accountId;
   }
 
   public void setAccountId(int accountId) {

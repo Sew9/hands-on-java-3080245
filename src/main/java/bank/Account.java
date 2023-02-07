@@ -7,14 +7,14 @@ public class Account {
   private String type;
   private double balance;
 
-  public Account(int id, String type, int balance) {
-    this.id = id;
-    this.type = type;
-    this.balance = balance;
+  public Account(int id, String type, double balance) {
+    setId(id);
+    setType(type);
+    setBalance(balance);
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public void setId(int id) {
@@ -22,7 +22,7 @@ public class Account {
   }
 
   public String getType() {
-    return this.type;
+    return type;
   }
 
   public void setType(String type) {
@@ -30,24 +30,25 @@ public class Account {
   }
 
   public double getBalance() {
-    return this.balance;
+    return balance;
   }
 
   public void setBalance(double balance) {
     this.balance = balance;
   }
   
-  public void deposit(Double amount) throws AmountException{
+  public void deposit(double amount) throws AmountException{
     if(amount < 1){
         throw new AmountException("The minimum deposit us 1.00");
     }
     else {
       double newBalance = balance + amount;
       setBalance(newBalance);
+      DataSource.updateAccountBalance(id, newBalance);
     }
  }
 
- public void withdraw(Double amount) {
+ public void withdraw(double amount) {
  }
 }
 
