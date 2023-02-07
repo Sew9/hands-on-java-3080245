@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
+import bank.exceptions.AmountException;
+
 public class Menu {
   private Scanner scanner;
 
@@ -17,7 +19,7 @@ public class Menu {
     Customer customer = menu.authenticateUser();
 
     if(customer != null){
-      Account account = DataSource.getAccount(customer.getAccountId())
+      Account account = DataSource.getAccount(customer.getAccountId());
       menu.showMemu(customer,account);
     }
 
@@ -45,7 +47,7 @@ public class Menu {
 
     int selection = 0;
 
-    while(slection != 4 && customer.isAuthenticated()){
+    while(selection != 4 && customer.isAuthenticated()){
       System.out.println("==============================================");
       System.out.println("please select one of the following options: ");
       System.out.println("1: Deposit");
@@ -60,7 +62,12 @@ public class Menu {
       switch(selection){
         case 1: System.out.println("How much would you like to deposit?"); 
                 amount = scanner.nextDouble();
+                try{
                 account.deposit(amount);
+              } catch(AmountException e){
+                System.out.println(e.getMessage());
+                System.out.println("Pleasentry again.");
+              }
                 break;
         case 2: System.out.println("How much would you like to withdraw?"); 
                 amount = scanner.nextDouble();
@@ -70,7 +77,6 @@ public class Menu {
                 break;
         case 4: Authentictor.logout(customer);
                 System.out.println("Thanks for banking at Globe Bamk International!"); 
-                account.deposit(amount);
                 break;
         default:
                 System.out.println("Invalid option. Please try again"); 
